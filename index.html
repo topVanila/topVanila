@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP VANILA — Официальный сайт сервера</title>
+
+    <style>
+        /* ==========================================================================
+           1. ОБНУЛЕНИЕ СТИЛЕЙ И БАЗОВЫЕ НАСТРОЙКИ
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #ffffff;
+            color: #222222;
+            padding-top: 80px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           2. ФИКСИРОВАННАЯ ШАПКА (HEADER) И НАВИГАЦИЯ
+           ========================================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #ffffff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 100px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #222222;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            user-select: none;
+        }
+
+        .logo span {
+            color: #ff9800;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline-block;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666666;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        /* Эффект наведения на обычные ссылки */
+        .nav-links a:hover:not(.active-btn) {
+            color: #ff9800;
+            background: rgba(255, 152, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* Класс для активной (оранжевой) кнопки */
+        .nav-links .active-btn {
+            background: #ff9800;
+            color: #ffffff !important;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.35);
+        }
+
+        .nav-links .active-btn:hover {
+            background: #e65c00;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 152, 0, 0.45);
+        }
+
+        /* ==========================================================================
+           3. ГЛАВНЫЙ БАННЕР (HERO SECTION) И СЕТКА ПЕРЕХОДА
+           ========================================================================== */
+        .hero {
+            height: calc(100vh - 80px);
+            background: 
+                linear-gradient(to bottom, rgba(255, 255, 255, 0) 75%, #ffffff 100%), 
+                linear-gradient(135deg, rgba(255, 152, 0, 0.42) 0%, rgba(255, 87, 34, 0.48) 100%), 
+                url("bg.png.png") no-repeat center center/cover;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left {
+            max-width: 600px;
+            z-index: 2;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .left h1 {
+            font-size: 84px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.65);
+            letter-spacing: -1px;
+        }
+
+        .left p {
+            font-size: 24px;
+            font-weight: 500;
+            color: #f5f5f5;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            margin-bottom: 10px;
+        }
+
+        /* Виджет мониторинга сервера */
+        .card {
+            background: #ffffff;
+            color: #222222;
+            padding: 40px;
+            border-radius: 24px;
+            width: 380px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+            animation: fadeInRight 1s ease-out;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .card h2 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #222222;
+            text-align: center;
+        }
+
+        .online-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #555555;
+            margin-bottom: 25px;
+        }
+
+        /* Индикатор онлайна */
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #ff9800;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.online {
+            background-color: #4caf50;
+            box-shadow: 0 0 10px #4caf50;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.offline {
+            background-color: #f44336;
+            box-shadow: 0 0 10px #f44336;
+        }
+
+        .ip-container {
+            position: relative;
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 14px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            color: #333333;
+            border: 1px dashed #dddddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: all;
+        }
+
+        .ip-container:hover {
+            background: #eeeeee;
+            border-color: #ff9800;
+        }
+
+        /* ==========================================================================
+           4. СЕКЦИИ И СЕТКИ КОНТЕНТА (ПРАВИЛА И СТАРТ)
+           ========================================================================== */
+        .section {
+            padding: 120px 100px;
+            max-width: 1300px;
+            margin: 0 auto;
+            scroll-margin-top: 80px;
+        }
+
+        .section h2 {
+            font-size: 46px;
+            font-weight: 900;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #ff9800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px;
+            background: #ff5722;
+            margin: 15px auto 0 auto;
+            border-radius: 10px;
+        }
+
+        /* Сетка для блока правил */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .rule-card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 20px;
+            border-left: 6px solid #ff5722;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            border-top: 1px solid rgba(0,0,0,0.01);
+            border-right: 1px solid rgba(0,0,0,0.01);
+            border-bottom: 1px solid rgba(0,0,0,0.01);
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border-color: #ff9800;
+        }
+
+        .rule-card h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #ff9800;
+        }
+
+        .rule-card p {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* Сетка для блока "Как начать" */
+        .start-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .start-step {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .start-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-num {
+            background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .start-step h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #ff9800;
+        }
+
+        .start-step p {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .start-step b {
+            color: #ff5722;
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           5. АНИМАЦИИ И ЭФФЕКТЫ (KEYFRAMES)
+           ========================================================================== */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        /* ==========================================================================
+           6. АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ УСТРОЙСТВА (RESPONSIVE)
+           ========================================================================== */
+        @media (max-width: 1200px) {
+            .header { padding: 0 40px; }
+            .hero { padding: 0 40px; }
+            .section { padding: 100px 40px; }
+            .rules-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                gap: 50px;
+                padding-top: 40px;
+                height: auto;
+                min-height: calc(100vh - 80px);
+                padding-bottom: 60px;
+            }
+            .left h1 { font-size: 60px; }
+            .start-grid { flex-direction: column; }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            body { padding-top: 140px; }
+            .hero { min-height: calc(100vh - 140px); }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .rules-grid { grid-template-columns: 1fr; }
+            .left h1 { font-size: 46px; }
+            .card { width: 100%; max-width: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Top <span>Vanila</span></div>
+        <ul class="nav-links" id="navMenu">
+            <li><a href="#main" class="active-btn" onclick="setActive(this)">🏠 Главная</a></li>
+            <li><a href="#rules" onclick="setActive(this)">📜 Правила</a></li>
+            <li><a href="#how-to-start" onclick="setActive(this)">🎮 Как начать</a></li>
+        </ul>
+    </header>
+
+    <section id="main" class="hero" style="margin-top: -80px; height: 100vh;">
+        <div class="left">
+            <h1>Top Vanila</h1>
+            <p>Начало новой эры</p>
+        </div>
+
+        <div class="card">
+            <h2>Наш сервер</h2>
+            <div class="online-status">
+                <span id="statusDot" class="status-dot"></span>
+                <span id="online">Онлайн: загрузка...</span>
+            </div>
+            <div class="ip-container" title="Нажмите, чтобы скопировать">
+    top_Vanila_.aternos.me:38998
+</div>
+        </div>
+    </section>
+
+    <section id="rules" class="section">
+        <h2>Правила сервера</h2>
+        <div class="rules-grid">
+            <div class="rule-card">
+                <h3>1. Гриферство</h3>
+                <p>Запрещено разрушать чужие постройки, воровать вещи из сундуков и затапливать чужие приватные территории лавой или водой.</p>
+            </div>
+            <div class="rule-card">
+                <h3>2. Читы и софт</h3>
+                <p>Использование чит-клиентов (X-Ray, Fly, KillAura и т.д.), багоюз и модификации, дающие преимущество над другими игроками, караются баном.</p>
+            </div>
+            <div class="rule-card">
+                <h3>3. Общение в чате</h3>
+                <p>Уважайте других игроков. Запрещены оскорбления, флуд, капс, спам ссылками и реклама сторонних проектов.</p>
+            </div>
+            <div class="rule-card">
+                <h3>4. Не честная игра</h3>
+                <p>Запрещено создание механизмов для дюпа вещей и намеренная порча экономики сервера. Играем честно и добываем ресурсы сами.</p>
+            </div>
+            <div class="rule-card">
+                <h3>5. Территории и Спавн</h3>
+                <p>Запрещено строить свои дома вплотную к спавну без согласования с администрацией, а также перекрывать дороги общего пользования.</p>
+            </div>
+            <div class="rule-card">
+                <h3>6. Лаг-машины</h3>
+                <p>Запрещено строить огромные редстоун-схемы или фермы, которые вызывают сильные просадки ТПС и мешают комфортной игре остальных.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-to-start" class="section">
+        <h2>Как начать играть?</h2>
+        <div class="start-grid">
+            <div class="start-step">
+                <div class="step-num">1</div>
+                <h3>Запусти Minecraft</h3>
+                <p>Тебе понадобится чистая ванильная версия игры. Рекомендуемая версия: <b>1.21.1</b>.</p>
+            </div>
+            <div class="start-step">
+                <div class="step-num">2</div>
+                <h3>Добавь сервер</h3>
+                <p>Зайди в меню «Сетевая игра», нажми кнопку «Добавить» и в поле «Адрес сервера» вставь наш IP.</p>
+            </div>
+            <div class="start-step">
+                <div class="step-num">3</div>
+                <h3>Выживай!</h3>
+                <p>Подключайся к нашему игровому миру, строй свой первый дом, находи союзников и заводи друзей!</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Мониторинг онлайна сервера через открытое API
+        function checkOnline() {
+            const statusDot = document.getElementById("statusDot");
+            const onlineText = document.getElementById("online");
+
+            fetch("https://api.mcstatus.io/v2/status/java/top_vanila.aternos.me")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.online) {
+                        statusDot.className = "status-dot online";
+                        onlineText.innerText = "Онлайн: " + data.players.online + " / " + data.players.max;
+                    } else {
+                        statusDot.className = "status-dot offline";
+                        onlineText.innerText = "Оффлайн";
+                    }
+                })
+                .catch(() => {
+                    statusDot.className = "status-dot offline";
+                    onlineText.innerText = "Ошибка проверки";
+                });
+        }
+
+        // Запуск проверки при загрузке страницы и автообновление каждые 30 секунд
+        checkOnline();
+        setInterval(checkOnline, 30000);
+
+        // 🔥 Скрипт плавного переключения активной кнопки в меню 🔥
+        function setActive(clickedLink) {
+            const links = document.querySelectorAll('#navMenu a');
+            links.forEach(link => link.classList.remove('active-btn'));
+            clickedLink.classList.add('active-btn');
+        }
+    </script>
+
+</body>
+</html>
