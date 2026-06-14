@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOP VANILA</title>
+
+<style>
+/* Обнуление стилей и плавный скролл */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #ffffff; /* Светлый фон сайта */
+    color: #222222;
+}
+
+/* Главный баннер */
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.4) 0%, rgba(255, 87, 34, 0.5) 100%), 
+                url("bg.png.png") no-repeat center center/cover;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 100px;
+    position: relative;
+    
+    /* Мягкий переход картинки в белый цвет в самом низу */
+    -webkit-mask-image: linear-gradient(to bottom, black 93%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 93%, transparent 100%);
+}
+
+.left h1 {
+    font-size: 80px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.left p {
+    font-size: 20px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.card {
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.ip {
+    background: #eee;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-family: monospace;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Кнопка скролла */
+.scroll-down {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 24px;
+    border-radius: 30px;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.scroll-down:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+/* Общие стили для секций */
+.section {
+    padding: 60px 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section h2 {
+    font-size: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #ff9800;
+}
+
+/* Сетка для правил (ровно по 3 в ряд на ПК) */
+.rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Фиксируем 3 колонки */
+    gap: 30px;
+}
+
+/* На мобильных экранах карточки встанут друг под друга */
+@media (max-width: 900px) {
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
+    .start-grid {
+        flex-direction: column;
+    }
+}
+
+.rule-card {
+    background: #fdfdfd;
+    padding: 25px;
+    border-radius: 15px;
+    border-left: 5px solid #ff5722;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.rule-card:hover {
+    transform: translateY(-5px);
+    background: #f7f7f7;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.rule-card h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #ff9800;
+}
+
+.rule-card p {
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Блок Как начать играть */
+.start-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.start-step {
+    background: #fdfdfd;
+    padding: 30px;
+    border-radius: 15px;
+    flex: 1;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.step-num {
+    background: #ff5722;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 auto 20px auto;
+}
+
+.start-step h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ff9800;
+}
+
+.start-step p {
+    color: #444;
+    font-size: 15px;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+    <div class="left">
+        <h1>Top Vanila</h1>
+        <p>Начало новой эры</p>
+    </div>
+
+    <div class="card">
+        <h2>Наш сервер</h2>
+        <p id="online">Онлайн: загрузка...</p>
+        <div class="ip">top_vanila.aternos.me</div>
+    </div>
+
+    <a href="#rules" class="scroll-down">Листать ниже ↓</a>
+
+</section>
+
+<section class="section" id="rules">
+    <h2>Правила сервера</h2>
+
+    <div class="rules-grid">
+        <div class="rule-card">
+            <h3>1. Гриферство</h3>
+            <p>Запрещено разрушать чужие постройки, воровать вещи из сундуков и затапливать чужие приватные территории лавой или водой.</p>
+        </div>
+
+        <div class="rule-card">
+            <h3>2. Читы и софт</h3>
+            <p>Использование чит-клиентов (X-Ray, Fly, KillAura и т.д.), багоюз и модификации, дающие преимущество над другими игроками, караются баном.</p>
+        </div>
+
+        <div class="rule-card">
+            <h3>3. Общение в чате</h3>
+            <p>Уважайте других игроков. Запрещены оскорбления, флуд, капс, спам ссылками и реклама сторонних проектов.</p>
+        </div>
+
+        <div class="rule-card">
+            <h3>4. Честная игра</h3>
+            <p>Запрещено создание механизмов для дюпа вещей и намеренная порча экономики сервера. Играем честно и добываем ресурсы сами.</p>
+        </div>
+
+        <div class="rule-card">
+            <h3>5. Территории и Спавн</h3>
+            <p>Запрещено строить свои дома вплотную к спавну без согласования с администрацией, а также перекрывать дороги общего пользования.</p>
+        </div>
+
+        <div class="rule-card">
+            <h3>6. Лаг-машины</h3>
+            <p>Запрещено строить огромные редстоун-схемы или фермы, которые вызывают сильные просадки ТПС и мешают комфортной игре остальных.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="how-to-start">
+    <h2>Как начать играть?</h2>
+
+    <div class="start-grid">
+        
+        <div class="start-step">
+            <div class="step-num">1</div>
+            <h3>Запусти Minecraft</h3>
+            <p>Тебе понадобится чистая ванильная версия игры. Версия <b>1.21.11</b>.</p>
+        </div>
+
+        <div class="start-step">
+            <div class="step-num">2</div>
+            <h3>Добавь сервер</h3>
+            <p>Зайди в меню «Сетевая игра», нажми кнопку «Добавить» и в поле «Адрес сервера» вставь наш IP.</p>
+        </div>
+
+        <div class="start-step">
+            <div class="step-num">3</div>
+            <h3>Выживай!</h3>
+            <p>Подключайся к серверу, строй свой первый дом и заводи друзей!</p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+fetch("https://api.mcstatus.io/v2/status/java/top_vanila.aternos.me")
+.then(res => res.json())
+.then(data => {
+    document.getElementById("online").innerText =
+    data.online ? "Онлайн: " + data.players.online : "Оффлайн";
+})
+.catch(() => {
+    document.getElementById("online").innerText = "Ошибка проверки";
+});
+</script>
+
+</body>
+</html>
